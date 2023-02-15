@@ -19,11 +19,8 @@ pub fn add(hash_map: &mut HashMap<String, Vec<String>>) {
     department_vector.push(employee_name);
 }
 
-pub fn display_all(hash_map: &HashMap<String, Vec<String>>) {
-    for (department, employees) in hash_map.iter() {
-        println!("Department: {department}");
-
-        let mut employee_names = String::new();
+fn format_employees(employees: &Vec<String>) -> String {
+    let mut employee_names = String::new();
         let last_idx = employees.len() - 1;
         for (idx, employee_name) in employees.iter().enumerate() {
             let employee_info = if idx == last_idx {
@@ -34,6 +31,32 @@ pub fn display_all(hash_map: &HashMap<String, Vec<String>>) {
 
             employee_names.push_str(&employee_info);
         }
+    employee_names
+}
+
+pub fn display_all(hash_map: &HashMap<String, Vec<String>>) {
+    for (department, employees) in hash_map.iter() {
+        println!("Department: {department}");
+
+        let employee_names = format_employees(employees);
         println!("  Employees: {employee_names}")
     }
 }
+
+pub fn display(hash_map:&HashMap<String, Vec<String>>) {
+    let mut department_name = String::new();
+    println!("Type department:");
+    io::stdin()
+        .read_line(&mut department_name)
+        .expect("Failed to read the department name");
+    let department_name = department_name.trim().to_string();
+    let employees = hash_map.get(&department_name);
+
+    if let Some(employees) = employees {
+        let employee_names = format_employees(employees);
+        println!("Employees: {employee_names}")
+    } else {
+        println!("No such department")
+    }
+}
+

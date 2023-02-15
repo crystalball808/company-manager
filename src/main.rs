@@ -13,7 +13,7 @@ fn main() {
 
     loop {
         println!(
-            "\nType number of command:\n1. Add an employee\n2. Display the list of all employees\n3. Exit"
+            "\nType number of command:\n1. Add an employee\n2. Display the list of all employees from department\n3. Display the list of all employees from all departments\n4. Exit"
         );
         let mut command = String::new();
         io::stdin()
@@ -27,7 +27,7 @@ fn main() {
             }
         };
 
-        if !(1..=3).contains(&command_number) {
+        if !(1..=4).contains(&command_number) {
             println!("Wrong command");
             continue;
         }
@@ -38,11 +38,16 @@ fn main() {
         }
 
         if command_number == 2 {
-            employee::display_all(&hash_map);
+            employee::display(&hash_map);
             continue;
         }
 
         if command_number == 3 {
+            employee::display_all(&hash_map);
+            continue;
+        }
+
+        if command_number == 4 {
             break;
         }
     }
